@@ -605,13 +605,48 @@
             </div>
             <div class="interactive-element">
                 <h3>Interactive Moment!</h3>
-                <p><strong>What is the name of your drink?</strong></p>
-                <p><strong>Why will this drink attract many customers?</strong></p>
-                <p><strong>What is the average cost to make one drink?</strong></p>
-                <p><strong>What is the average profit you expect from this new product?</strong></p>
+                <p style="text-align: left;"><strong>1. What is the name of your drink?</strong></p>
+                <p style="text-align: left;"><strong>2. Why will this drink attract many customers?</strong></p>
+                <p style="text-align: left;"><strong>3. What is the average cost to make one drink?</strong></p>
+                <p style="text-align: left;"><strong>4. What is the average profit you expect from this new product?</strong></p>
                 <p><em>Let's hear your thoughts!</em></p>
             </div>
         </div>
+
+          <!-- Votación -->
+         <div class="slide">
+        <h2>¡Tiempo de Votar! <span class="emoji">🗳️</span></h2>
+        
+        <div class="voting-container">
+            <!-- Opción Roja -->
+            <div class="voting-option red" onclick="vote('red')">
+                <div class="option-image">🔴</div>
+                <div class="option-title">Opción Roja</div>
+                <div class="vote-counter" id="redCounter">0</div>
+                <button class="vote-btn">¡VOTAR ROJO!</button>
+            </div>
+
+            <!-- Opción Azul -->
+            <div class="voting-option blue" onclick="vote('blue')">
+                <div class="option-image">🔵</div>
+                <div class="option-title">Opción Azul</div>
+                <div class="vote-counter" id="blueCounter">0</div>
+                <button class="vote-btn">¡VOTAR AZUL!</button>
+            </div>
+        </div>
+
+        <div class="total-votes">
+            Total de votos: <span id="totalVotes">0</span>
+        </div>
+
+        <div id="winnerAnnouncement" class="winner-announcement">
+            🎉 ¡<span id="winnerText"></span> está ganando! 🎉
+        </div>
+
+        <button class="reset-btn" onclick="resetVotes()">
+            🔄 Reiniciar Votación
+        </button>
+    </div>
 
         <!-- Teamwork Principles -->
         <div class="slide">
@@ -873,9 +908,94 @@
             if (e.key === 'ArrowLeft') changeSlide(-1);
             if (e.key === 'ArrowRight') changeSlide(1);
         });
+
+        let redVotes = 0;
+        let blueVotes = 0;
+
+        function vote(color) {
+            if (color === 'red') {
+                redVotes++;
+                document.getElementById('redCounter').textContent = redVotes;
+            } else if (color === 'blue') {
+                blueVotes++;
+                document.getElementById('blueCounter').textContent = blueVotes;
+            }
+
+            updateTotalVotes();
+            updateWinner();
+            
+            // Animación al votar
+            const option = document.querySelector(`.voting-option.${color}`);
+            option.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                option.style.transform = '';
+            }, 150);
+        }
+
+        function updateTotalVotes() {
+            const total = redVotes + blueVotes;
+            document.getElementById('totalVotes').textContent = total;
+        }
+
+        function updateWinner() {
+            const winnerAnnouncement = document.getElementById('winnerAnnouncement');
+            const winnerText = document.getElementById('winnerText');
+
+            if (redVotes === blueVotes) {
+                winnerAnnouncement.classList.remove('show', 'winner-red', 'winner-blue');
+            } else if (redVotes > blueVotes) {
+                winnerText.textContent = 'Opción Roja';
+                winnerAnnouncement.className = 'winner-announcement show winner-red';
+            } else {
+                winnerText.textContent = 'Opción Azul';
+                winnerAnnouncement.className = 'winner-announcement show winner-blue';
+            }
+        }
+
+        function resetVotes() {
+            redVotes = 0;
+            blueVotes = 0;
+            document.getElementById('redCounter').textContent = '0';
+            document.getElementById('blueCounter').textContent = '0';
+            document.getElementById('totalVotes').textContent = '0';
+            document.getElementById('winnerAnnouncement').classList.remove('show', 'winner-red', 'winner-blue');
+            
+            // Animación de reset
+            const options = document.querySelectorAll('.voting-option');
+            options.forEach(option => {
+                option.style.transform = 'rotateY(360deg)';
+                setTimeout(() => {
+                    option.style.transform = '';
+                }, 500);
+            });
+        }
+
+        // Efectos de sonido simulados con vibración (si está disponible)
+        function vote(color) {
+            // Código de votación anterior...
+            if (color === 'red') {
+                redVotes++;
+                document.getElementById('redCounter').textContent = redVotes;
+            } else if (color === 'blue') {
+                blueVotes++;
+                document.getElementById('blueCounter').textContent = blueVotes;
+            }
+
+            // Vibración en dispositivos móviles
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+
+            updateTotalVotes();
+            updateWinner();
+            
+            // Animación al votar
+            const option = document.querySelector(`.voting-option.${color}`);
+            option.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                option.style.transform = '';
+            }, 150);
+        }
     </script>
 </body>
-
 </html>
-
-
