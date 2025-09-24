@@ -197,13 +197,17 @@
         }
 
         .principle-card h4 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
+        font-size: 1.5em;
+        margin-bottom: 15px;
+        color: #ffffff;
+        font-weight: 600;
         }
 
         .principle-card p {
-            font-size: 1.1em;
-            line-height: 1.4;
+        font-size: 1.1em;
+        line-height: 1.4;
+        color: #f0f0f0;
+        font-weight: 500;
         }
 
         .interactive-element {
@@ -868,23 +872,23 @@
             <div class="teamwork-principles">
                 <div class="principle-card">
                     <h4>People First</h4>
-                    <p>Teams are made of people, and relationships can make or break performance</p>
+                    <p style="color:#dbd6ee">Teams are made of people, and relationships can make or break performance</p>
                 </div>
                 <div class="principle-card">
                     <h4>Seek Understanding</h4>
-                    <p>As you seek to be understood, also seek to understand others</p>
+                    <p style="color:#dbd6ee">As you seek to be understood, also seek to understand others</p>
                 </div>
                 <div class="principle-card">
                     <h4>Divine Help</h4>
-                    <p>Establish unity by being disciples of Christ and asking for divine assistance</p>
+                    <p style="color:#dbd6ee">Establish unity by being disciples of Christ and asking for divine assistance</p>
                 </div>
                 <div class="principle-card">
                     <h4>Everyone Participates</h4>
-                    <p>Do your part and help the group - participation makes work easier</p>
+                    <p style="color:#dbd6ee">Do your part and help the group - participation makes work easier</p>
                 </div>
                 <div class="principle-card">
                     <h4>Be Patient</h4>
-                    <p>Unity takes time to form. Have patience and nurture each other</p>
+                    <p style="color:#dbd6ee">Unity takes time to form. Have patience and nurture each other</p>
                 </div>
             </div>
         </div>
@@ -897,14 +901,12 @@
                 <p>A document that establishes how your team will work together, make decisions, and handle challenges.</p>
             </div>
             <div class="interactive-element">
-                <h3>Think About:</h3>
-                <p>🎯 Team goals and objectives</p>
-                <p>📞 Communication methods and frequency</p>
-                <p>⚖️ Decision-making processes</p>
-                <p>🔄 Roles and responsibilities</p>
-                <p>🚧 Conflict resolution strategies</p>
+                <p style="text-align: left;"<>📞 Agree on a communication method</p>
+                <p style="text-align: left;">🔔 Agree on when you’ll communicate</p>
+                <p style="text-align: left;">🔍 Re-evaluate your process</p>
+                <p style="text-align: left;">📋 Organization and project management</p>
             </div>
-            <p><strong>Remember:</strong> Just like the devotional emphasized making effort to gather, your team document should reflect everyone's commitment to the team's success!</p>
+            <p><strong>Decide how to handle team members who do not participate:</strong> Just like in any team, in a class, or outside of class, you’ll have some team members who do not fully contribute. If you decide early how to handle these situations, it will help you deal with them later on. Keep in mind that the purpose of this course is to learn how to collaborate and work in teams, so how you handle this is key to the experience. We all have busy lives, and people are often dealing with issues that you don’t know about. Try to take a disciple leader approach when dealing with these issues. You can also ask your instructor or missionaries for advice. la parte de think about cambiar por este texto!</p>
         </div>
 
         <!-- Call to Action -->
@@ -950,26 +952,31 @@
         }
 
         function changeSlide(direction) {
-            slides[currentSlide].classList.remove('active');
-            currentSlide += direction;
-            
-            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
-            if (currentSlide < 0) currentSlide = 0;
-            
-            slides[currentSlide].classList.add('active');
-            updateProgress();
-            updateSlideCounter();
-            
-            // Auto-select participant IMMEDIATELY when entering quiz questions (now slides 4-8)
-            if (currentSlide >= 4 && currentSlide <= 8) {
-                const questionNumber = currentSlide - 3;
-                displaySelectedParticipant(questionNumber);
-            }
-            
-            // Update navigation buttons
-            document.getElementById('prevBtn').disabled = currentSlide === 0;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
-        }
+    slides[currentSlide].classList.remove('active');
+    currentSlide += direction;
+    
+    if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+    if (currentSlide < 0) currentSlide = 0;
+    
+    slides[currentSlide].classList.add('active');
+    updateProgress();
+    updateSlideCounter();
+    
+    // Auto-select participant IMMEDIATELY when entering quiz questions (now slides 4-8)
+    if (currentSlide >= 4 && currentSlide <= 8) {
+        const questionNumber = currentSlide - 3;
+        setTimeout(function() {
+            displaySelectedParticipant(questionNumber);
+        }, 300);
+    }
+    
+    // Update navigation buttons
+    document.getElementById('prevBtn').disabled = currentSlide === 0;
+    document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+    
+    // Asegurar que el participante se muestre siempre
+    setTimeout(ensureParticipantDisplay, 500);
+}
 
         function addParticipant() {
             const nameInput = document.getElementById('nameInput');
@@ -1054,6 +1061,17 @@
                 selectedElement.innerHTML = '🎯 ' + selectedName + ' - Your turn to answer!';
             }
         }
+
+        function ensureParticipantDisplay() {
+    // Verificar si estamos en una slide de quiz y mostrar el participante
+        if (currentSlide >= 4 && currentSlide <= 8) {
+            const questionNumber = currentSlide - 3;
+            const selectedElement = document.getElementById('selectedParticipant' + (questionNumber > 1 ? questionNumber : ''));
+            if (selectedElement && selectedElement.innerHTML === '') {
+                displaySelectedParticipant(questionNumber);
+            }
+        }
+    }
 
         function selectAnswer(element, isCorrect) {
             // Disable all options in this question
