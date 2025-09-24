@@ -363,15 +363,20 @@
             font-size: 1.3em;
             font-weight: bold;
             box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3);
-            animation: selectedAnimation 1s ease;
+
+            /*animation: selectedAnimation 1s ease;*/
             z-index: 20;
         }
+        @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+        }
 
-        @keyframes selectedAnimation {
+       /* @keyframes selectedAnimation {
             0% { transform: translateX(-50%) scale(0.8) rotateY(-180deg); opacity: 0; }
             50% { transform: translateX(-50%) scale(1.1) rotateY(-90deg); }
             100% { transform: translateX(-50%) scale(1) rotateY(0deg); opacity: 1; }
-        }
+        } */
 
         .bug-jar-images {
             display: flex;
@@ -963,12 +968,10 @@
     updateSlideCounter();
     
     // Auto-select participant IMMEDIATELY when entering quiz questions (now slides 4-8)
-    if (currentSlide >= 4 && currentSlide <= 8) {
-        const questionNumber = currentSlide - 3;
-        setTimeout(function() {
-            displaySelectedParticipant(questionNumber);
-        }, 300);
-    }
+      if (currentSlide >= 4 && currentSlide <= 8) {
+                const questionNumber = currentSlide - 4 + 1;
+                displaySelectedParticipant(questionNumber);
+            }
     
     // Update navigation buttons
     document.getElementById('prevBtn').disabled = currentSlide === 0;
@@ -1061,17 +1064,6 @@
                 selectedElement.innerHTML = '🎯 ' + selectedName + ' - Your turn to answer!';
             }
         }
-
-        function ensureParticipantDisplay() {
-    // Verificar si estamos en una slide de quiz y mostrar el participante
-        if (currentSlide >= 4 && currentSlide <= 8) {
-            const questionNumber = currentSlide - 3;
-            const selectedElement = document.getElementById('selectedParticipant' + (questionNumber > 1 ? questionNumber : ''));
-            if (selectedElement && selectedElement.innerHTML === '') {
-                displaySelectedParticipant(questionNumber);
-            }
-        }
-    }
 
         function selectAnswer(element, isCorrect) {
             // Disable all options in this question
@@ -1228,6 +1220,39 @@
                 option.style.transform = '';
             }, 150);
         }
+        // Función para mostrar participantes en todas las slides de quiz al inicio
+function initializeAllQuizParticipants() {
+    // Solo ejecutar si hay participantes registrados
+    if (participants.length > 0) {
+        for (let i = 1; i <= 5; i++) {
+            displaySelectedParticipant(i);
+        }
+    }
+}
+
+// Llamar cuando se agregan participantes
+function addParticipant() {
+    const nameInput = document.getElementById('nameInput');
+    const name = nameInput.value.trim();
+    
+    if (name === '') {
+        alert('Please enter a name!');
+        return;
+    }
+    
+    if (participants.includes(name)) {
+        alert('This name is already added!');
+        return;
+    }
+    
+    participants.push(name);
+    nameInput.value = '';
+    updateParticipantsList();
+    updateParticipantCount();
+    
+    // Actualizar todas las slides de quiz
+    initializeAllQuizParticipants();
+}
     </script>
 </body>
 </html>
