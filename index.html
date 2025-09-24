@@ -396,7 +396,7 @@
             100% { transform: rotateY(360deg) scale(1); }
         }
 
-        /* Estilos para la votación - Agregar al CSS existente */
+        /* Estilos para la votación */
 
 .voting-container {
     display: flex;
@@ -833,28 +833,28 @@
 
           <!-- Votación -->
          <div class="slide">
-        <h2>¡Tiempo de Votar! <span class="emoji">🗳️</span></h2>
+        <h2>¡Time to Vote! <span class="emoji">🗳️</span></h2>
         
         <div class="voting-container">
             <!-- Opción Roja -->
             <div class="voting-option red" onclick="vote('red')">
                 <div class="option-image"></div>
-                <div class="option-title">Opción Roja</div>
+                <div class="option-title">Red</div>
                 <div class="vote-counter" id="redCounter">0</div>
-                <button class="vote-btn">¡VOTAR ROJO!</button>
+                <button class="vote-btn">¡VOTE RED!</button>
             </div>
 
             <!-- Opción Azul -->
             <div class="voting-option blue" onclick="vote('blue')">
                 <div class="option-image"></div>
-                <div class="option-title">Opción Azul</div>
+                <div class="option-title">Blue</div>
                 <div class="vote-counter" id="blueCounter">0</div>
-                <button class="vote-btn">¡VOTAR AZUL!</button>
+                <button class="vote-btn">¡VOTE BLUE!</button>
             </div>
         </div>
 
         <div class="total-votes">
-            Total de votos: <span id="totalVotes">0</span>
+            Total Vote: <span id="totalVotes">0</span>
         </div>
 
         <div id="winnerAnnouncement" class="winner-announcement">
@@ -862,7 +862,7 @@
         </div>
 
         <button class="reset-btn" onclick="resetVotes()">
-            🔄 Reiniciar Votación
+            🔄 Re-game
         </button>
     </div>
 
